@@ -1,0 +1,8 @@
+
+<?php 
+$host = '';
+$user = '';
+$password = ';
+$db_name = '';
+$conn = mysqli_connect($host, $user, $password, $db_name);
+?>
