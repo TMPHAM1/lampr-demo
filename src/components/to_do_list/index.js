@@ -3,6 +3,9 @@ import axios from 'axios';
 import Item from './item';
 import Input from './input';
 import './list.css';
+import { formatPostData } from '../../helpers';
+
+
 
 class ToDoList extends Component {
     constructor(props) {
@@ -24,13 +27,32 @@ class ToDoList extends Component {
         this.deleteItem = this.deleteItem.bind(this);
     }
 
-    componentWillMount() {
+  async  componentWillMount() {
         this.getListData();
+        // const dataToSend = {
+        //     message: 'Hello from the frontend',
+        //     favColor: 'BLUE',
+        //     birthday: '2/22/22'
+        // };
+
+        // const params = formatPostData(dataToSend)
+        // const params = new URLSearchParams();
+
+        // params.append('message', 'Hello from the frontend');
+        // params.append('blue', 'BLUE');
+        // params.append('birthday', '2/22/22');
+       // await axios.get('/api/todos.php'); hacking on a config 
+       // Params: {
+       //    action: get_all_todos'
+      // }
+
+        // const resp = await axios.get('/api/todos.php?action=get_all_todos');
+        // console.log('Resp from server:', resp);
     }
 
     async getListData() {
         // Use get request to get list data
-        const response = { data: {}}; // Remove
+        const response = await axios.get('/api/todos.php?action=get_all_todos'); // Remove
 
         const { message, listItems } = response.data;
 
@@ -60,8 +82,13 @@ class ToDoList extends Component {
         e.preventDefault();
         // Item @ this.state.newItem
         // Use post method to send new item to DB
-        const response = {data: {success: true}}; // Remove
-
+        // const response = {data: {success: true}}; // Remove
+        const dataToSend = formatPostData(this.state.newItem)
+        const response =  await axios.post('/api/todos.php', dataToSend, {
+            params: {
+                action: 'add_item'
+            }
+        })
         const { errors, success } = response.data;
 
         if(!success){
