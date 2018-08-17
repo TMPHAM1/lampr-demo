@@ -12,8 +12,7 @@ switch ($method) {
     require_once('get/'.$action.'.php');
     break;
     case "POST":
-    $output['success'] = 'true';
-    $output['message'] = 'Post Request Made';
+    require_once('post/'.$action.'.php');
     break;
     case "PUT":
     $output['success'] = 'true';

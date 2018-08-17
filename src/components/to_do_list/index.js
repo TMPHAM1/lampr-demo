@@ -82,8 +82,13 @@ class ToDoList extends Component {
         e.preventDefault();
         // Item @ this.state.newItem
         // Use post method to send new item to DB
-        const response = {data: {success: true}}; // Remove
-
+        // const response = {data: {success: true}}; // Remove
+        const dataToSend = formatPostData(this.state.newItem)
+        const response =  await axios.post('/api/todos.php', dataToSend, {
+            params: {
+                action: 'add_item'
+            }
+        })
         const { errors, success } = response.data;
 
         if(!success){
